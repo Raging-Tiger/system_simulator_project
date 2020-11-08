@@ -35,6 +35,8 @@ Currently it has functionality of:
 4. System state as a combination of basic linear states can be observed
 5. NOT operator can be applied to the specified bit
 6. CNOT operator can be applied to the specified control and target bits
-7. System data can be saved in a file in binary form with the extension of .cssf (classical simulator state file)
-8. System data can be loaded from any valid .cssf file to continue analysis
-9. History of analysis can be saved as .txt file 
+7. NOT operator matrix can be generated with user-set parameters
+8. CNOT operator matrix can be generated with user-set parameters
+9. System data can be saved in a file in binary form with the extension of .cssf (classical simulator state file)
+10. System data can be loaded from any valid .cssf file to continue analysis
+11. History of analysis can be saved as .txt file
