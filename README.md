@@ -30,7 +30,7 @@ Currently it has functionality of:
 
 * __Classical (multi-bit) simulator__:
 1. Initial classical state is set to [0.5, 0.5]
-2. New bit can be added to the system
+2. New bit can be added to the system (0 to 1, can be float, e.g. 0.1)
 3. System state vector can be observed
 4. System state as a combination of basic linear states can be observed
 5. NOT operator can be applied to the specified bit
@@ -40,3 +40,9 @@ Currently it has functionality of:
 9. System data can be saved in a file in binary form with the extension of .cssf (classical simulator state file)
 10. System data can be loaded from any valid .cssf file to continue analysis
 11. History of analysis can be saved as .txt file
+
+
+
+* __Usage/Installation__:
+1. Put .py file in one directory with 3 images
+2. Run .py file by Python interpreter (all was checked by Python 3.7.4 for 64-bit devices)
