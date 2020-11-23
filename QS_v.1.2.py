@@ -152,7 +152,6 @@ class Quantum_simulator(tk.Frame):
         #take_back_basis_change
         self.button_remove_basis = ttk.Button(self, text="Remove basis", command=self.take_back_basis_change)
 
-        #controller.bind("<Return>", lambda event: self.save_as())
         
         
     #This is a menu to save/load mostly
@@ -179,6 +178,7 @@ class Quantum_simulator(tk.Frame):
     
         systemMenu = tk.Menu(menubar)
         systemMenu.add_command(label="Info", command=self.system_info)
+        systemMenu.add_command(label="Delete state", command=self.delete_state)
         menubar.add_cascade(label="System", menu=systemMenu)
         return menubar
 
@@ -966,6 +966,24 @@ class Quantum_simulator(tk.Frame):
         else:
             tk.messagebox.showinfo('Quantum system information', f'Quantum system has {len(self.__quantum_states)} states and {len(self.__basis)} basis')
 
+    #Delete any state -- MENU
+    def delete_state(self):
+        if len(self.__quantum_states) < 2:
+             tk.messagebox.showerror('Delete quantum state', 'Number of states cannot go below 1')
+             return
+
+        states = tk.simpledialog.askinteger("Delete quantum state", f"Total number of states is {len(self.__quantum_states)}. Select state to delete:")
+
+        if states > len(self.__quantum_states) or states < 1:
+             tk.messagebox.showerror('Delete quantum state', 'State to delete cannot be more than number of states or less than 1')
+             return
+        else:
+            self.__quantum_states.pop(states-1)
+            self.text['state'] = tk.NORMAL
+            self.text.insert(tk.END, f'\nQuantum state number {states} was deleted')
+            self.text['state'] = tk.DISABLED
+
+
 class Classical_simulator(tk.Frame):
 
     def __init__(self, parent, controller):
@@ -1033,6 +1051,7 @@ class Classical_simulator(tk.Frame):
         operatorMenu = tk.Menu(menubar)
         operatorMenu.add_command(label="NOT matrix", command=self.not_mat_gen)
         operatorMenu.add_command(label="CNOT matrix", command=self.cnot_mat_gen)
+        operatorMenu.add_command(label="Delete state", command=self.delete_bit)
         menubar.add_cascade(label="Operators", menu=operatorMenu)
 
         
@@ -1042,12 +1061,19 @@ class Classical_simulator(tk.Frame):
     def validate_entry(self, entry):
         result = re.match(r"\d+(.\d+)?$", entry)
         return result is not None
+
     #Add new bit to system -- CORE + READ
     def add_a_new_bit(self):
         input_data = self.new_bit_system_entry.get()
+            
         if self.validate_entry(input_data):
-            state_value = float(input_data)
-            if state_value < 0 and state_value > 1:
+            try:
+                state_value = float(input_data)
+            except:
+                self.add_message(f'Wrong input data for new bit')
+                return
+
+            if state_value < 0 or state_value > 1:
                 self.add_message(f'Wrong input data for new bit')
                 return
         else:
@@ -1340,7 +1366,50 @@ class Classical_simulator(tk.Frame):
         self.add_message(f'CNOT operator matrix for {bits} bits, where {control} is control bit and {target} is target bit')
         for i in result:
             self.add_message(f'{i}')
+
+    #Delete any bit -- MENU
+    def delete_bit(self):
+        if len(self.bit_states) < 2:
+             tk.messagebox.showerror('Delete classical bit', 'Number of bits cannot go below 1')
+             return
+
+        bit = tk.simpledialog.askinteger("Delete classical bit", f"Total number of bits is {len(self.bit_states)}. Select bit to delete:")
         
+        if not bit:
+            return
+
+        if bit >len(self.bit_states) or bit < 1:
+             tk.messagebox.showerror('Delete classical bit', 'Bit to delete cannot be more than number of bits or less than 1')
+             return
+        else:
+            bits = len(self.bit_states)
+            bits_comb = list(product([0, 1], repeat=bits))
+            states = self.system_state
+
+            new = { }
+
+            for index in range(len(states)):
+                if states[index] != 0:
+                    string_tuple = ''
+                    for num in range(len(bits_comb[index])):
+                        if num != bit-1:
+                            string_tuple += str(bits_comb[index][num])
+                    if int(string_tuple,2) not in new:
+                        new[int(string_tuple,2)] = states[index]
+                    else: new[int(string_tuple,2)] += states[index]
+
+            new_state = []
+            values = new.keys()
+            for i in range(2**(len(self.bit_states)-1)):
+                if i not in values:
+                    new_state.append(0)
+                else:
+                    new_state.append(new[i])
+            self.bit_states.pop(bit-1)
+            self.system_state = new_state
+            self.add_message(f'Bit number {bit} was deleted and system is recalculated')
+            #print (new_state)
+            
 
 #Application start-up
 app = core_frame()
