@@ -27,6 +27,7 @@ Currently it has functionality of:
 20. System data can be saved in a file in binary form with the extension of .qssf (quantum simulator state file)
 21. System data can be loaded from any valid .qssf file to continue analysis
 22. History of analysis can be saved as .txt file 
+23. Delete quantum state functionality (NEW)
 
 * __Classical (multi-bit) simulator__:
 1. Initial classical state is set to [0.5, 0.5]
@@ -40,6 +41,7 @@ Currently it has functionality of:
 9. System data can be saved in a file in binary form with the extension of .cssf (classical simulator state file)
 10. System data can be loaded from any valid .cssf file to continue analysis
 11. History of analysis can be saved as .txt file
+12. Delete classical bit functionality (NEW)
 
 
 
