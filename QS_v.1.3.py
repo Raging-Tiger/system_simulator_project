@@ -1016,7 +1016,7 @@ class Classical_simulator(tk.Frame):
         self.button_system_vector.grid(row=2, column=0, padx=5, pady=5, sticky="nsew")
 
         #System state  -- Button
-        self.button_system_state = ttk.Button(self, text="State vector", command=self.print_state)
+        self.button_system_state = ttk.Button(self, text="States", command=self.print_state)
         self.button_system_state.grid(row=3, column=0, padx=5, pady=5, sticky="nsew")
 
         #NOT operator over selected bit  -- Button + field
