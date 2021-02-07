@@ -1,6 +1,6 @@
 # system_simulator_project
 
-Done as a final project in the University of Latvia
+Done as a project in the University of Latvia
 
 Currently it has functionality of:
 
